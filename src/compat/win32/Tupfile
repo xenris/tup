@@ -1,5 +1,7 @@
 include_rules
+
 ifeq ($(TARGET),win32)
-CFLAGS += "-DATTRIBUTE_USED=__attribute__((used))"
-: foreach *.c |> !cc |>
+    CFLAGS += "-DATTRIBUTE_USED=__attribute__((used))"
+
+    : foreach *.c |> !cc |>
 endif

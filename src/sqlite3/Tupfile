@@ -18,5 +18,5 @@ CFLAGS += -DSQLITE_OMIT_EXPLAIN
 CFLAGS += -DSQLITE_OMIT_JSON
 
 ifneq (@(TUP_USE_SYSTEM_SQLITE),y)
-: foreach *.c |> !cc |>
+    : foreach *.c |> !cc |>
 endif

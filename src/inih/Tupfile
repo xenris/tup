@@ -7,5 +7,5 @@ CFLAGS += -Wno-cast-qual
 CFLAGS += -DINI_ALLOW_MULTILINE=0
 
 ifneq (@(TUP_USE_SYSTEM_INIH),y)
-: foreach *.c |> !cc |>
+    : foreach *.c |> !cc |>
 endif

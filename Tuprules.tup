@@ -1,31 +1,35 @@
 .gitignore
 
 ifdef TARGET
-TARGET = @(TARGET)
+    TARGET = @(TARGET)
 else
-TARGET = @(TUP_PLATFORM)
+    TARGET = @(TUP_PLATFORM)
 endif
 
 ifeq (@(TUP_DEBUG),y)
-CFLAGS += -Og
+    CFLAGS += -Og
 else
-CFLAGS += -Os
+    CFLAGS += -Os
 endif
+
 CFLAGS += -g
 
 ifeq (@(TUP_SANITIZE),y)
-CFLAGS += -fsanitize=address
-LDFLAGS += -lasan
+    CFLAGS += -fsanitize=address
+    LDFLAGS += -lasan
 
-CFLAGS += -fsanitize=undefined
-LDFLAGS += -lubsan
+    CFLAGS += -fsanitize=undefined
+    LDFLAGS += -lubsan
 endif
 
 CFLAGS += -W
 CFLAGS += -Wall
+
 ifeq (@(TUP_WERROR),y)
-CFLAGS += -Werror
+    CFLAGS += -Werror
 endif
+
+CFLAGS += -fdiagnostics-color=always
 CFLAGS += -Wbad-function-cast
 CFLAGS += -Wcast-align
 CFLAGS += -Wcast-qual
@@ -44,13 +48,13 @@ CFLAGS += -I$(TUP_VARIANTDIR)/src
 CFLAGS += -I$(TUP_CWD)/src
 
 ifeq (@(TUP_32_BIT),y)
-CFLAGS += -m32
-LDFLAGS += -m32
+    CFLAGS += -m32
+    LDFLAGS += -m32
 endif
 
 ifeq (@(TUP_PROFILING),y)
-CFLAGS += -pg
-LDFLAGS += -pg
+    CFLAGS += -pg
+    LDFLAGS += -pg
 endif
 
 !cc = |> ^ CC %f^ $(CC) -c %f -o %o $(CFLAGS) $(CFLAGS_%f) |> %B.o
@@ -71,47 +75,49 @@ TUP_USE_SYSTEM_PCRE = y
 include $(TARGET).tup
 
 ifdef CC
-CC = @(CC)
+    CC = @(CC)
 endif
 
 ifdef CC32
-CC32 = @(CC32)
+    CC32 = @(CC32)
 endif
 
 ifdef AR
-AR = @(AR)
+    AR = @(AR)
 endif
 
 # Override AR settings if being built with busybox kconfig
 ifeq ($(AR),y)
-AR = ar
+    AR = ar
 endif
+
 ifeq ($(AR),n)
-AR = ar
+    AR = ar
 endif
 
 ifdef TUP_USE_SYSTEM_PCRE
-use_system_pcre = @(TUP_USE_SYSTEM_PCRE)
+    use_system_pcre = @(TUP_USE_SYSTEM_PCRE)
 else
-use_system_pcre = $(TUP_USE_SYSTEM_PCRE)
+    use_system_pcre = $(TUP_USE_SYSTEM_PCRE)
 endif
+
 ifeq ($(use_system_pcre),y)
-CFLAGS += `pcre2-config --cflags`
+    CFLAGS += `pcre2-config --cflags`
 else
-CFLAGS += -I$(TUP_CWD)/src/pcre
-CFLAGS += -DPCRE_STATIC
+    CFLAGS += -I$(TUP_CWD)/src/pcre
+    CFLAGS += -DPCRE_STATIC
 endif
 
 ifneq (@(TUP_USE_SYSTEM_INIH),y)
-CFLAGS += -I$(TUP_CWD)/src/inih
+    CFLAGS += -I$(TUP_CWD)/src/inih
 endif
 
 ifeq ($(TUP_SERVER),ldpreload)
-FPIC = -fpic
-SHARED = -shared
+    FPIC = -fpic
+    SHARED = -shared
 
-LDFLAGS_tup-ldpreload.so += $(FPIC)
-LDFLAGS_tup-ldpreload.so += $(SHARED)
-LDFLAGS_tup-ldpreload.so += -ldl
-LDFLAGS_tup-ldpreload.so += -pthread
+    LDFLAGS_tup-ldpreload.so += $(FPIC)
+    LDFLAGS_tup-ldpreload.so += $(SHARED)
+    LDFLAGS_tup-ldpreload.so += -ldl
+    LDFLAGS_tup-ldpreload.so += -pthread
 endif

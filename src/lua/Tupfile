@@ -36,9 +36,9 @@ srcs += lzio.c
 CFLAGS += -w
 
 ifneq ($(TARGET),win32)
-CFLAGS += -DLUA_USE_POSIX
+    CFLAGS += -DLUA_USE_POSIX
 else
-CFLAGS_lua.c += -Usig_atomic_t
+    CFLAGS_lua.c += -Usig_atomic_t
 endif
 
 : foreach $(srcs) |> !cc |> {objs}
@@ -48,4 +48,5 @@ endif
 : foreach lua.c |> !cc |>
 
 LDFLAGS += -lm
+
 : lua.o liblua.a |> !ld |> lua$(PROGRAM_SUFFIX)

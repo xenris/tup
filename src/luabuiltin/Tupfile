@@ -1,10 +1,11 @@
 include_rules
+
 ifeq (@(TUP_PROFILING),y)
-gmon = gmon.out
+    gmon = gmon.out
 endif
 
 ifeq ($(TARGET),@(TUP_PLATFORM))
-: ../lua/lua$(PROGRAM_SUFFIX) builtin.lua |> %1f xxd.lua %2f %o |> luabuiltin.h | $(gmon)
+    : ../lua/lua$(PROGRAM_SUFFIX) builtin.lua |> %1f xxd.lua %2f %o |> luabuiltin.h | $(gmon)
 else
-: builtin.lua |> lua xxd.lua %f %o |> luabuiltin.h | $(gmon)
+    : builtin.lua |> lua xxd.lua %f %o |> luabuiltin.h | $(gmon)
 endif
